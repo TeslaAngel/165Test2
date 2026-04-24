@@ -1,70 +1,59 @@
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class SelectableVisual : MonoBehaviour
 {
-    [Header("Renderers")]
     [SerializeField] private Renderer[] renderersToTint;
 
-    [Header("Colors")]
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color hoverColor = new Color(1f, 1f, 0.8f); // pale yellow
-    [SerializeField] private Color selectedColor = Color.red;
+    private Color normalColor = Color.white;
+    private Color hoverColor = Color.green;
+    private Color selectedColor = Color.yellow;
 
-    private bool _isHovered;
-    private bool _isSelected;
+    private bool isHovered = false;
+    private bool isSelected = false;
 
     private void Awake()
     {
         if (renderersToTint == null || renderersToTint.Length == 0)
-        {
             renderersToTint = GetComponentsInChildren<Renderer>(true);
-        }
 
-        ApplyCurrentColor();
+        ApplyColor(normalColor);
     }
 
-    public void HandleHover()
+    /*private void Update()
     {
-        _isHovered = true;
-        ApplyCurrentColor();
+        if (Input.GetKeyDown(KeyCode.Alpha1)) ApplyColor(normalColor);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) ApplyColor(hoverColor);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) ApplyColor(selectedColor);
+    }*/
+
+    public void HandleHover() {isHovered = true; UpdateColor(); }
+    public void HandleUnhover() {isHovered = false; UpdateColor(); }
+    public void HandleSelect() {isSelected = true; UpdateColor(); }
+    public void HandleUnselect() {isSelected = false; UpdateColor(); }
+
+    private void UpdateColor()
+    {
+        if (isSelected)
+            ApplyColor(selectedColor);
+        else if (isHovered)
+            ApplyColor(hoverColor);
+        else
+            ApplyColor(normalColor);
     }
 
-    public void HandleUnhover()
+    private void ApplyColor(Color c)
     {
-        _isHovered = false;
-        ApplyCurrentColor();
-    }
-
-    public void HandleSelect()
-    {
-        _isSelected = true;
-        ApplyCurrentColor();
-    }
-
-    public void HandleUnselect()
-    {
-        _isSelected = false;
-        ApplyCurrentColor();
-    }
-
-    private void ApplyCurrentColor()
-    {
-        Color target =
-            _isSelected ? selectedColor :
-            _isHovered ? hoverColor :
-            normalColor;
-
-        foreach (var r in renderersToTint)
+        foreach (Renderer r in renderersToTint)
         {
             if (r == null) continue;
 
-            var materials = r.materials;
-            foreach (var mat in materials)
+            foreach (Material mat in r.materials)
             {
-                if (mat != null && mat.HasProperty("_Color"))
-                {
-                    mat.color = target;
-                }
+                if (mat.HasProperty("_BaseColor"))
+                    mat.SetColor("_BaseColor", c);
+                else if (mat.HasProperty("_Color"))
+                    mat.color = c;
             }
         }
     }
