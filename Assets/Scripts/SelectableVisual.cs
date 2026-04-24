@@ -1,4 +1,3 @@
-using System.Xml.Serialization;
 using UnityEngine;
 
 public class SelectableVisual : MonoBehaviour
@@ -19,13 +18,6 @@ public class SelectableVisual : MonoBehaviour
 
         ApplyColor(normalColor);
     }
-
-    /*private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ApplyColor(normalColor);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) ApplyColor(hoverColor);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) ApplyColor(selectedColor);
-    }*/
 
     public void HandleHover() {isHovered = true; UpdateColor(); }
     public void HandleUnhover() {isHovered = false; UpdateColor(); }

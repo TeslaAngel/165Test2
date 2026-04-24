@@ -4,59 +4,80 @@ public class TwoHandScale : MonoBehaviour
 {
     [SerializeField] private Transform leftHand;
     [SerializeField] private Transform rightHand;
-    [SerializeField] private float minScale = 0.2f;
+
+    [SerializeField] private float minScale = 0.25f;
     [SerializeField] private float maxScale = 3.0f;
+    [SerializeField] private float gripThreshold = 0.5f;
+    [SerializeField] private bool debugLogs = true;
 
-    private bool _leftSelecting;
-    private bool _rightSelecting;
-    private bool _isScaling;
+    private bool isSelected;
+    private bool isScaling;
 
-    private float _initialHandDistance;
-    private Vector3 _initialScale;
+    private float startDistance;
+    private Vector3 startScale;
 
-    public void LeftSelect()
+    public void HandleSelect()
     {
-        _leftSelecting = true;
-        TryBeginScaling();
+        isSelected = true;
+        if (debugLogs) Debug.Log($"{name}: TwoHandScale SELECTED");
     }
 
-    public void LeftUnselect()
+    public void HandleUnselect()
     {
-        _leftSelecting = false;
-        _isScaling = false;
+        isSelected = false;
+        isScaling = false;
+        if (debugLogs) Debug.Log($"{name}: TwoHandScale UNSELECTED");
     }
 
-    public void RightSelect()
+    private void LateUpdate()
     {
-        _rightSelecting = true;
-        TryBeginScaling();
-    }
+        if (!isSelected)
+            return;
 
-    public void RightUnselect()
-    {
-        _rightSelecting = false;
-        _isScaling = false;
-    }
-
-    private void TryBeginScaling()
-    {
-        if (_leftSelecting && _rightSelecting && leftHand != null && rightHand != null)
+        if (leftHand == null || rightHand == null)
         {
-            _initialHandDistance = Vector3.Distance(leftHand.position, rightHand.position);
-            _initialScale = transform.localScale;
-            _isScaling = _initialHandDistance > 0.0001f;
+            Debug.LogWarning($"{name}: Missing leftHand or rightHand reference.");
+            return;
         }
-    }
 
-    private void Update()
-    {
-        if (!_isScaling || leftHand == null || rightHand == null) return;
+        bool leftGrip =
+            OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) > gripThreshold;
+
+        bool rightGrip =
+            OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch) > gripThreshold;
+
+        bool bothGrips = leftGrip && rightGrip;
+
+        if (!bothGrips)
+        {
+            isScaling = false;
+            return;
+        }
 
         float currentDistance = Vector3.Distance(leftHand.position, rightHand.position);
-        if (_initialHandDistance <= 0.0001f) return;
 
-        float ratio = currentDistance / _initialHandDistance;
-        float uniform = Mathf.Clamp(_initialScale.x * ratio, minScale, maxScale);
-        transform.localScale = Vector3.one * uniform;
+        if (!isScaling)
+        {
+            startDistance = currentDistance;
+            startScale = transform.localScale;
+            isScaling = startDistance > 0.0001f;
+
+            if (debugLogs)
+                Debug.Log($"{name}: Scaling started. Start distance = {startDistance}, start scale = {startScale}");
+
+            return;
+        }
+
+        float ratio = currentDistance / startDistance;
+        Vector3 targetScale = startScale * ratio;
+
+        targetScale.x = Mathf.Clamp(targetScale.x, minScale, maxScale);
+        targetScale.y = Mathf.Clamp(targetScale.y, minScale, maxScale);
+        targetScale.z = Mathf.Clamp(targetScale.z, minScale, maxScale);
+
+        transform.localScale = targetScale;
+
+        if (debugLogs)
+            Debug.Log($"{name}: Scaling. Current distance = {currentDistance}, ratio = {ratio}, scale = {targetScale}");
     }
 }
