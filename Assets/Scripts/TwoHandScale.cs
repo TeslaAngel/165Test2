@@ -8,13 +8,21 @@ public class TwoHandScale : MonoBehaviour
     [SerializeField] private float minScale = 0.25f;
     [SerializeField] private float maxScale = 3.0f;
     [SerializeField] private float gripThreshold = 0.5f;
-    [SerializeField] private bool debugLogs = true;
+    [SerializeField] private bool debugLogs = false;
 
     private bool isSelected;
     private bool isScaling;
 
     private float startDistance;
     private Vector3 startScale;
+    private Vector3 committedScale;
+
+    public Transform target;
+
+    private void Awake()
+    {
+        committedScale = target.localScale;
+    }
 
     public void HandleSelect()
     {
@@ -26,6 +34,7 @@ public class TwoHandScale : MonoBehaviour
     {
         isSelected = false;
         isScaling = false;
+        StopScalingAndCommit();
         if (debugLogs) Debug.Log($"{name}: TwoHandScale UNSELECTED");
     }
 
@@ -54,12 +63,13 @@ public class TwoHandScale : MonoBehaviour
             return;
         }
 
+        // we scale object based on distance between hands
         float currentDistance = Vector3.Distance(leftHand.position, rightHand.position);
 
         if (!isScaling)
         {
             startDistance = currentDistance;
-            startScale = transform.localScale;
+            startScale = target.localScale;
             isScaling = startDistance > 0.0001f;
 
             if (debugLogs)
@@ -75,9 +85,19 @@ public class TwoHandScale : MonoBehaviour
         targetScale.y = Mathf.Clamp(targetScale.y, minScale, maxScale);
         targetScale.z = Mathf.Clamp(targetScale.z, minScale, maxScale);
 
-        transform.localScale = targetScale;
+        target.localScale = targetScale;
+        committedScale = targetScale;
 
         if (debugLogs)
             Debug.Log($"{name}: Scaling. Current distance = {currentDistance}, ratio = {ratio}, scale = {targetScale}");
+    }
+
+    private void StopScalingAndCommit()
+    {
+        if (!isScaling)
+            return;
+
+        isScaling = false;
+        target.localScale = committedScale;
     }
 }
