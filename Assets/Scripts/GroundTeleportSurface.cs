@@ -17,6 +17,13 @@ public class GroundTeleportSurface : MonoBehaviour
     private Vector3 targetPosition;
     private bool isValidTarget = false;
 
+    void Start()
+    {
+        if (rayOrigin == null)
+            rayOrigin = GameObject.Find("RightHandAnchor").transform;
+        if (xrRigRoot == null)
+            xrRigRoot = GameObject.Find("OVRCameraRig").transform;
+    }
     void Update()
     {
       CheckRayHit();
