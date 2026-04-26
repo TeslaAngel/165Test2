@@ -3,90 +3,130 @@ using UnityEngine;
 public class ThrowableTeleportBeacon : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform playerRoot;
+    [SerializeField] private Transform playerRoot;      // OVRCameraRig root
+    [SerializeField] private Transform beaconVisual;    // VisualRoot child
     [SerializeField] private Rigidbody rb;
 
-    [Header("Landing")]
+    [Header("Ground Detection")]
     [SerializeField] private LayerMask validGroundLayers;
-    [SerializeField] private float minThrowSpeed = 0.75f;
-    [SerializeField] private float settleVelocityThreshold = 0.15f;
     [SerializeField] private float raycastHeight = 0.5f;
     [SerializeField] private float raycastDistance = 3.0f;
 
+    [Header("Throw Detection")]
+    [SerializeField] private float minThrowSpeed = 0.75f;
+    [SerializeField] private float settleSpeed = 0.2f;
+    [SerializeField] private float settleDelay = 0.25f;
+
     [Header("Behavior")]
-    [SerializeField] private bool resetToStartAfterTeleport = true;
-    [SerializeField] private float teleportYOffset = 0f;
+    [SerializeField] private bool resetBeaconAfterTeleport = true;
+    [SerializeField] private float playerHeightOffset = 0f;
 
-    private Vector3 _startPosition;
-    private Quaternion _startRotation;
+    private Vector3 startRootPosition;
+    private Quaternion startRootRotation;
+    private Vector3 startVisualLocalPosition;
+    private Quaternion startVisualLocalRotation;
 
-    private bool _wasSelected;
-    private bool _armedAfterRelease;
-    private bool _teleportDone;
+    private bool isSelected;
+    private bool armed;
+    private bool teleported;
+    private float settleTimer;
 
     private void Awake()
     {
         if (rb == null)
             rb = GetComponent<Rigidbody>();
 
-        _startPosition = transform.position;
-        _startRotation = transform.rotation;
+        if (beaconVisual == null)
+            beaconVisual = transform;
+
+        startRootPosition = transform.position;
+        startRootRotation = transform.rotation;
+        startVisualLocalPosition = beaconVisual.localPosition;
+        startVisualLocalRotation = beaconVisual.localRotation;
     }
 
     public void HandleSelect()
     {
-        _wasSelected = true;
-        _armedAfterRelease = false;
-        _teleportDone = false;
+        isSelected = true;
+        armed = false;
+        teleported = false;
+        settleTimer = 0f;
     }
 
     public void HandleUnselect()
     {
-        if (!_wasSelected || rb == null) return;
+        isSelected = false;
 
-        _wasSelected = false;
+        if (rb == null) return;
 
-        if (rb.linearVelocity.magnitude >= minThrowSpeed)
+        float speed = rb.linearVelocity.magnitude;
+
+        if (speed >= minThrowSpeed)
         {
-            _armedAfterRelease = true;
+            armed = true;
+            teleported = false;
+            settleTimer = 0f;
         }
     }
 
     private void Update()
     {
-        if (!_armedAfterRelease || _teleportDone || rb == null || playerRoot == null)
+        if (!armed || teleported || rb == null || playerRoot == null)
             return;
 
-        if (rb.linearVelocity.magnitude > settleVelocityThreshold)
+        float speed = rb.linearVelocity.magnitude;
+
+        if (speed <= settleSpeed)
+            settleTimer += Time.deltaTime;
+        else
+            settleTimer = 0f;
+
+        if (settleTimer < settleDelay)
             return;
 
-        Vector3 origin = transform.position + Vector3.up * raycastHeight;
+        Vector3 rayOrigin = beaconVisual.position + Vector3.up * raycastHeight;
 
-        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, raycastDistance, validGroundLayers))
+        if (Physics.Raycast(
+            rayOrigin,
+            Vector3.down,
+            out RaycastHit hit,
+            raycastDistance,
+            validGroundLayers
+        ))
         {
             TeleportPlayer(hit.point);
         }
     }
 
-    private void TeleportPlayer(Vector3 hitPoint)
+    private void TeleportPlayer(Vector3 groundPoint)
     {
-        _teleportDone = true;
-        _armedAfterRelease = false;
+        teleported = true;
+        armed = false;
 
-        Vector3 target = new Vector3(
-            hitPoint.x,
-            playerRoot.position.y + teleportYOffset,
-            hitPoint.z
+        Vector3 newPlayerPosition = new Vector3(
+            groundPoint.x,
+            playerRoot.position.y + playerHeightOffset,
+            groundPoint.z
         );
 
-        playerRoot.position = target;
+        playerRoot.position = newPlayerPosition;
 
-        if (resetToStartAfterTeleport)
+        if (resetBeaconAfterTeleport)
+            ResetBeacon();
+    }
+
+    private void ResetBeacon()
+    {
+        if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            transform.position = _startPosition;
-            transform.rotation = _startRotation;
         }
+
+        transform.position = startRootPosition;
+        transform.rotation = startRootRotation;
+
+        beaconVisual.localPosition = startVisualLocalPosition;
+        beaconVisual.localRotation = startVisualLocalRotation;
     }
 }
