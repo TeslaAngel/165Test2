@@ -5,20 +5,38 @@ public class RightControllerTeleport : MonoBehaviour
     [Header("Ray Settings")]
     public float maxDistance = 10f;
     public LayerMask groundLayer;
+    public float heightOffset = 0.1f;
 
     [Header("Teleport")]
     public GameObject teleportRingPrefab;
+    [SerializeField] private float playerYOffset = 0f;
+    [SerializeField] private bool preservePlayerY = true;
+
+    [Header("References")]
+    [SerializeField] private Transform playerRoot;
 
     private GameObject ringInstance;
-    private Transform rigRoot;
 
+    public void SetPlayerRoot(Transform root)
+    {
+        playerRoot = root;
+    }
     void Start()
     {
-        // The OVRCameraRig root should move, not the camera
-        rigRoot = GetComponentInParent<OVRCameraRig>().transform;
-
         ringInstance = Instantiate(teleportRingPrefab);
         ringInstance.SetActive(false);
+    }
+    void TeleportTo(Vector3 contactPoint)
+    {
+        float targetY = preservePlayerY
+            ? playerRoot.position.y
+            : contactPoint.y + playerYOffset;
+
+        playerRoot.position = new Vector3(
+            contactPoint.x,
+            targetY,
+            contactPoint.z
+        );
     }
 
     void Update()
@@ -26,15 +44,21 @@ public class RightControllerTeleport : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
 
-        bool hitGround = Physics.Raycast(ray, out hit, maxDistance, groundLayer);
+        bool hasHit = Physics.Raycast(ray, out hit, maxDistance);
+
+        bool hitGround = hasHit &&
+            ((1 << hit.collider.gameObject.layer) & groundLayer) != 0;
 
         // Update ring position
         if (hitGround)
         {
             ringInstance.SetActive(true);
 
-            ringInstance.transform.position = hit.point;
-            ringInstance.transform.up = hit.normal;
+            Vector3 adjustedPosition = hit.point + Vector3.up * heightOffset;
+
+            ringInstance.transform.position = adjustedPosition;
+
+            ringInstance.transform.rotation = Quaternion.LookRotation(Vector3.up);
         }
         else
         {
@@ -42,20 +66,9 @@ public class RightControllerTeleport : MonoBehaviour
         }
 
         // Teleport on B press
-        if (OVRInput.GetDown(OVRInput.Button.Two)) // B button
+        if (OVRInput.GetDown(OVRInput.Button.Two) && hitGround) // B button
         {
-            if (hitGround)
-            {
-                TeleportTo(hit.point);
-            }
+            TeleportTo(hit.point);
         }
-    }
-
-    void TeleportTo(Vector3 targetPosition)
-    {
-        // Keep height offset so player doesn't sink into ground
-        Vector3 offset = rigRoot.position - Camera.main.transform.position;
-
-        rigRoot.position = targetPosition + offset;
     }
 }

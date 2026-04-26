@@ -352,4 +352,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   playerYOffset: 0
-  preservePlayerY: 0
+  preservePlayerY: 1
