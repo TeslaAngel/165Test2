@@ -8,12 +8,11 @@ public class PushPullObject : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.5f;
-    [SerializeField] private float minLocalZ = -3.0f;
-    [SerializeField] private float maxLocalZ = 3.0f;
+    [SerializeField] private float minDistance = 0.35f;
+    [SerializeField] private float maxDistance = 8.0f;
     [SerializeField] private float triggerDeadzone = 0.1f;
 
     private bool isSelected;
-    private Vector3 startLocalPosition;
 
     private void Awake()
     {
@@ -22,8 +21,6 @@ public class PushPullObject : MonoBehaviour
 
         if (distanceReference == null && Camera.main != null)
             distanceReference = Camera.main.transform;
-
-        startLocalPosition = moveTarget.localPosition;
     }
 
     public void HandleSelect()
@@ -39,7 +36,7 @@ public class PushPullObject : MonoBehaviour
     private void LateUpdate()
     {
         if (!isSelected) return;
-        if (moveTarget == null) return;
+        if (moveTarget == null || distanceReference == null) return;
 
         float rt = OVRInput.Get(
             OVRInput.Axis1D.PrimaryIndexTrigger,
@@ -57,19 +54,22 @@ public class PushPullObject : MonoBehaviour
         float input = rt - lt;
         if (Mathf.Abs(input) < 0.001f) return;
 
-        Vector3 local = moveTarget.localPosition;
+        Vector3 fromPlayer = moveTarget.position - distanceReference.position;
+        float currentDistance = fromPlayer.magnitude;
 
-        // Right trigger pushes the visible/collider child forward.
-        // Left trigger pulls it back.
-        local.z += input * moveSpeed * Time.deltaTime;
-        local.z = Mathf.Clamp(local.z, minLocalZ, maxLocalZ);
+        if (currentDistance < 0.0001f) return;
 
-        moveTarget.localPosition = local;
-    }
+        Vector3 directionFromPlayer = fromPlayer.normalized;
 
-    public void ResetOffset()
-    {
-        if (moveTarget != null)
-            moveTarget.localPosition = startLocalPosition;
+        float nextDistance = Mathf.Clamp(
+            currentDistance + input * moveSpeed * Time.deltaTime,
+            minDistance,
+            maxDistance
+        );
+
+        Vector3 nextWorldPosition =
+            distanceReference.position + directionFromPlayer * nextDistance;
+
+        moveTarget.position = nextWorldPosition;
     }
 }
