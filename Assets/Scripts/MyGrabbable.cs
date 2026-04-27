@@ -35,12 +35,12 @@ public class MyGrabbable : MonoBehaviour
             visual?.HandleUnhover();
     }
 
-    public void SelectEnter()
+    public void SelectEnter(Transform lh, Transform rh, Transform disRef)
     {
         selectCount++;
         visual?.HandleSelect();
-        PPO?.HandleSelect();
-        THS?.HandleSelect();
+        PPO?.HandleSelect(disRef);
+        THS?.HandleSelect(lh, rh);
     }
 
     public void SelectExit()

@@ -793,6 +793,9 @@ MonoBehaviour:
   gripThreshold: 0.6
   keepGrabOffset: 1
   throwMultiplier: 1.2
+  leftHand: {fileID: 440894371}
+  rightHand: {fileID: 392168392}
+  eyeCenter: {fileID: 247086732}
 --- !u!120 &229562351
 LineRenderer:
   serializedVersion: 3
@@ -923,6 +926,9 @@ MonoBehaviour:
   gripThreshold: 0.6
   keepGrabOffset: 1
   throwMultiplier: 1.2
+  leftHand: {fileID: 440894371}
+  rightHand: {fileID: 332369389}
+  eyeCenter: {fileID: 247086732}
 --- !u!114 &229562353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,6 +1435,9 @@ MonoBehaviour:
   gripThreshold: 0.6
   keepGrabOffset: 1
   throwMultiplier: 1.2
+  leftHand: {fileID: 440894371}
+  rightHand: {fileID: 392168392}
+  eyeCenter: {fileID: 247086732}
 --- !u!114 &332369394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1449,6 +1458,9 @@ MonoBehaviour:
   gripThreshold: 0.6
   keepGrabOffset: 1
   throwMultiplier: 1.2
+  leftHand: {fileID: 440894371}
+  rightHand: {fileID: 332369389}
+  eyeCenter: {fileID: 247086732}
 --- !u!114 &332369395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2922,7 +2934,7 @@ MonoBehaviour:
   requestBodyTrackingPermissionOnStartup: 0
   requestFaceTrackingPermissionOnStartup: 0
   requestEyeTrackingPermissionOnStartup: 0
-  requestScenePermissionOnStartup: 0
+  requestScenePermissionOnStartup: 1
   requestRecordAudioPermissionOnStartup: 0
   requestPassthroughCameraAccessPermissionOnStartup: 0
   _localDimming: 1

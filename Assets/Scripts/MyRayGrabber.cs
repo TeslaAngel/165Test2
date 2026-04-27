@@ -15,6 +15,10 @@ public class MyRayGrabber : MonoBehaviour
     [SerializeField] private bool keepGrabOffset = true;
     [SerializeField] private float throwMultiplier = 1.2f;
 
+    public Transform leftHand;
+    public Transform rightHand;
+    public Transform eyeCenter;
+
     private MyGrabbable hovered;
     private MyGrabbable grabbed;
 
@@ -103,7 +107,7 @@ public class MyRayGrabber : MonoBehaviour
         if (hovered == null) return;
 
         grabbed = hovered;
-        grabbed.SelectEnter();
+        grabbed.SelectEnter(leftHand, rightHand, eyeCenter);
 
         if (keepGrabOffset)
         {

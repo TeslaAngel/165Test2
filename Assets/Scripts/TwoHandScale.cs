@@ -24,10 +24,12 @@ public class TwoHandScale : MonoBehaviour
         committedScale = target.localScale;
     }
 
-    public void HandleSelect()
+    public void HandleSelect(Transform rleftHand, Transform rrightHand)
     {
         isSelected = true;
         if (debugLogs) Debug.Log($"{name}: TwoHandScale SELECTED");
+        leftHand = rleftHand;
+        rightHand = rrightHand;
     }
 
     public void HandleUnselect()

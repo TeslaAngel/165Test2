@@ -25,9 +25,10 @@ public class PushPullObject : MonoBehaviour
         lastHandPos = transform.position;
     }
 
-    public void HandleSelect()
+    public void HandleSelect(Transform disRef)
     {
         isSelected = true;
+        distanceReference = disRef;
     }
 
     public void HandleUnselect()
