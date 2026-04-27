@@ -4068,6 +4068,8 @@ MonoBehaviour:
   minDistance: 0.35
   maxDistance: 8
   triggerDeadzone: 0.1
+  rotationSpeed: 120
+  rotateThreshold: 0.9
 --- !u!114 &2044429899
 MonoBehaviour:
   m_ObjectHideFlags: 0

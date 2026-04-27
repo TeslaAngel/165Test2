@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PushPullObject : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform moveTarget;        // VisualRoot child
-    [SerializeField] private Transform distanceReference; // CenterEyeAnchor / Main Camera
+    [SerializeField] private Transform moveTarget;        // VisualRoot
+    [SerializeField] private Transform distanceReference; // camera
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.5f;
@@ -12,15 +12,17 @@ public class PushPullObject : MonoBehaviour
     [SerializeField] private float maxDistance = 8.0f;
     [SerializeField] private float triggerDeadzone = 0.1f;
 
+    [Header("Rotation")]
+    [SerializeField] private float rotationSpeed = 120f;
+    [SerializeField] private float rotateThreshold = 0.9f;
+
     private bool isSelected;
 
-    private void Awake()
-    {
-        if (moveTarget == null)
-            moveTarget = transform;
+    private Vector3 lastHandPos;
 
-        if (distanceReference == null && Camera.main != null)
-            distanceReference = Camera.main.transform;
+    private void Start()
+    {
+        lastHandPos = transform.position;
     }
 
     public void HandleSelect()
@@ -35,8 +37,8 @@ public class PushPullObject : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!isSelected) return;
-        if (moveTarget == null || distanceReference == null) return;
+        if (!isSelected || moveTarget == null || distanceReference == null)
+            return;
 
         float rt = OVRInput.Get(
             OVRInput.Axis1D.PrimaryIndexTrigger,
@@ -48,6 +50,16 @@ public class PushPullObject : MonoBehaviour
             OVRInput.Controller.LTouch
         );
 
+        bool rotateMode = rt > rotateThreshold && lt > rotateThreshold;
+
+        // ===== ROTATION MODE =====
+        if (rotateMode)
+        {
+            RotateObject();
+            return;
+        }
+
+        // ===== NORMAL PUSH/PULL =====
         if (rt < triggerDeadzone) rt = 0f;
         if (lt < triggerDeadzone) lt = 0f;
 
@@ -59,7 +71,7 @@ public class PushPullObject : MonoBehaviour
 
         if (currentDistance < 0.0001f) return;
 
-        Vector3 directionFromPlayer = fromPlayer.normalized;
+        Vector3 direction = fromPlayer.normalized;
 
         float nextDistance = Mathf.Clamp(
             currentDistance + input * moveSpeed * Time.deltaTime,
@@ -67,9 +79,18 @@ public class PushPullObject : MonoBehaviour
             maxDistance
         );
 
-        Vector3 nextWorldPosition =
-            distanceReference.position + directionFromPlayer * nextDistance;
+        moveTarget.position =
+            distanceReference.position + direction * nextDistance;
+    }
 
-        moveTarget.position = nextWorldPosition;
+    private void RotateObject()
+    {
+        float rotationPerSecond = rotationSpeed;
+
+        moveTarget.Rotate(
+            Vector3.up,
+            rotationPerSecond * Time.deltaTime,
+            Space.World
+        );
     }
 }
