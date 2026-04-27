@@ -78,3 +78,7 @@ crashlytics-build.properties
 
 /Assets/Art/*
 .vscode/
+/Assets/Oculus/OculusProjectConfig.asset
+/Assets/Resources/OculusRuntimeSettings.asset
+/Assets/XR/Settings/OpenXR Package Settings.asset
+/ProjectSettings/ShaderGraphSettings.asset
