@@ -548,6 +548,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 229562348}
+  - component: {fileID: 229562352}
   - component: {fileID: 229562350}
   - component: {fileID: 229562351}
   - component: {fileID: 229562349}
@@ -602,7 +603,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229562347}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4645dd99c6c51fc42ae731a1709217d6, type: 3}
   m_Name: 
@@ -726,6 +727,26 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &229562352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229562347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edb362e487e4704ea579845f308a016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomRadiusGrabber
+  grabRadius: 0.35
+  grabbableLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  controller: 1
+  gripThreshold: 0.6
+  keepGrabOffset: 1
+  throwMultiplier: 1.2
 --- !u!1 &247086731
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 332369389}
+  - component: {fileID: 332369394}
   - component: {fileID: 332369393}
   - component: {fileID: 332369391}
   - component: {fileID: 332369390}
@@ -1058,7 +1080,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332369388}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4645dd99c6c51fc42ae731a1709217d6, type: 3}
   m_Name: 
@@ -1068,7 +1090,27 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   lineRenderer: {fileID: 332369391}
-  controller: 2
+  controller: 3
+  gripThreshold: 0.6
+  keepGrabOffset: 1
+  throwMultiplier: 1.2
+--- !u!114 &332369394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332369388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0edb362e487e4704ea579845f308a016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomRadiusGrabber
+  grabRadius: 0.35
+  grabbableLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  controller: 1
   gripThreshold: 0.6
   keepGrabOffset: 1
   throwMultiplier: 1.2
