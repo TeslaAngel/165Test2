@@ -350,6 +350,6 @@ MonoBehaviour:
   playerRoot: {fileID: 0}
   groundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   playerYOffset: 0
-  preservePlayerY: 1
+  preservePlayerY: 0
