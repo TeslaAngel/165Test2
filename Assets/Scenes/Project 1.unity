@@ -2104,6 +2104,7 @@ GameObject:
   - component: {fileID: 1297236240}
   - component: {fileID: 1297236239}
   - component: {fileID: 1297236241}
+  - component: {fileID: 1297236242}
   - component: {fileID: 1297236238}
   - component: {fileID: 1297236237}
   - component: {fileID: 1297236236}
@@ -2297,6 +2298,24 @@ MonoBehaviour:
   teleportBallPrefab: {fileID: 6495681370028330675, guid: 76b12f0f7a564f347acb5c2d85bfd172, type: 3}
   gripThreshold: 0.6
   throwVelocityMultiplier: 3
+--- !u!114 &1297236242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297236235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2abd2feecc9a1fc45b459796ffc055d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JoystickMovement
+  playerRoot: {fileID: 1297236240}
+  headReference: {fileID: 247086732}
+  moveSpeed: 1.8
+  deadzone: 0.15
+  useHeadDirection: 1
+  lockYAxis: 1
 --- !u!1 &1306146761
 GameObject:
   m_ObjectHideFlags: 0
