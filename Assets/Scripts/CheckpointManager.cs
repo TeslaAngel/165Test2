@@ -37,7 +37,7 @@ public class CheckpointLoader : MonoBehaviour
             float y = float.Parse(parts[1]);
             float z = float.Parse(parts[2]);
 
-            Vector3 position = new Vector3(x, y, z);
+            Vector3 position = new Vector3(x, y, z) * 0.0254f; // scaled from inch -> meter for unity
 
             GameObject checkpointObj = Instantiate(checkpointPrefab, position, Quaternion.identity);
 
