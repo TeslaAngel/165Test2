@@ -19,6 +19,16 @@ public class Drone : MonoBehaviour
         raceManager.HandleCheckpoint(this, checkpoint);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+      Debug.Log("Collided with object.");
+      if (collision.gameObject.CompareTag("Environment"))
+      {
+        Debug.Log("Collided with ground. Resetting...");
+        raceManager.StartPenalty();
+      }
+    }
+
     public void ResetDrone(Vector3 position, Quaternion rotation)
     {
         transform.position = position;

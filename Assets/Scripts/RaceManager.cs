@@ -10,10 +10,17 @@ public class RaceManager : MonoBehaviour
 
     private Drone drone;
     private float raceStartTime;
+    private float finalTime;
     private bool raceStarted = false;
     private bool raceFinished = false;
     private Vector3 lastDronePosition;
     public float movementThreshold = 0.01f; // small threshold to ignore jitter
+
+    private float countdownTime = 10f;
+    private float countdownRemaining;
+    private bool countdownActive = true;
+    private float penaltyRemaining;
+    private bool penalty = false;
 
     void Start()
     {
@@ -25,21 +32,43 @@ public class RaceManager : MonoBehaviour
         Debug.Log("num checkpoints: " + checkpoints.Length);
 
         InitializeDronePosition();
+        countdownRemaining = countdownTime;
     }
-    // update function determines when the race starts based on if the drone moves
+
     void Update()
     {
-        if (raceStarted || raceFinished) return;
+        HandleCountdown();
+        HandlePenalty();
+        if (countdownActive || raceFinished) return;
 
         Vector3 currentPosition = drone.transform.position;
-        float distanceMoved = Vector3.Distance(currentPosition, lastDronePosition);
-
-        if (distanceMoved > movementThreshold)
-        {
-            StartRace();
-        }
-
         lastDronePosition = currentPosition;
+    }
+    void HandleCountdown()
+    {
+      if (!countdownActive) return;
+      countdownRemaining -= Time.deltaTime;
+
+      if (countdownRemaining <= 0f)
+      {
+        countdownActive = false;
+        StartRace();
+      }
+    }
+    void HandlePenalty()
+    {
+      if (!penalty) return;
+      penaltyRemaining -= Time.deltaTime;
+      if (penaltyRemaining <= 0f)
+      {
+        penalty = false;
+      }
+    }
+    public void StartPenalty()
+    {
+        penalty = true;
+        penaltyRemaining = 3f;
+        ResetToLastCheckpoint(drone);
     }
     void InitializeDronePosition()
     {
@@ -98,19 +127,14 @@ public class RaceManager : MonoBehaviour
                 FinishRace();
             }
         }
-        else if (checkpoint.checkpointID > nextCheckpointID)
-        {
-            Debug.Log("Wrong checkpoint! Resetting...");
-            ResetToLastCheckpoint(drone);
-        }
     }
 
     void FinishRace()
     {
         raceFinished = true;
 
-        float totalTime = Time.time - raceStartTime;
-        Debug.Log("Race finished! Time: " + totalTime.ToString("F2") + " seconds");
+        finalTime = Time.time - raceStartTime;
+        Debug.Log("Race finished! Time: " + finalTime.ToString("F2") + " seconds");
     }
     // 
     void ResetToLastCheckpoint(Drone drone)
@@ -118,7 +142,6 @@ public class RaceManager : MonoBehaviour
         Quaternion rotation = GetRotationTowardNextCheckpoint(lastCheckpointPosition);
         drone.ResetDrone(lastCheckpointPosition, rotation);
 
-        // Prevent accidental restart trigger after reset
         lastDronePosition = lastCheckpointPosition;
     }
     // make drone face next checkpoint
@@ -145,7 +168,32 @@ public class RaceManager : MonoBehaviour
         return checkpoints[index];
     }
     public Checkpoint GetNextCheckpoint()
-  {
-    return GetCheckpointByID(nextCheckpointID);
-  }
+    {
+      return GetCheckpointByID(nextCheckpointID);
+    }
+    public bool IsCountdownActive()
+    {
+      return countdownActive;
+    }
+    public float GetCountdownTime()
+    {
+      return countdownRemaining;
+    }
+    public float GetRaceTime()
+    {
+      if (!raceStarted) return 0f;
+      if (raceFinished)
+      {
+        return finalTime;
+      }
+      return Time.time - raceStartTime;
+    }
+    public bool GetPenalty()
+    {
+      return penalty;
+    }
+    public float GetPenaltyTime()
+    {
+      return penaltyRemaining;
+    }
 }

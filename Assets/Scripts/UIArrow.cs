@@ -40,7 +40,5 @@ public class UIArrow : MonoBehaviour
         Vector3 direction = (nextCheckpoint.transform.position - cam.position).normalized;
 
         transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0);
-
-        Debug.DrawRay(transform.position, transform.forward * 3f, Color.blue);
     }
 }

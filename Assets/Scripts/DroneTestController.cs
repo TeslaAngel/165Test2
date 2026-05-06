@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DroneTestController : MonoBehaviour
 {
+    public RaceManager raceManager;
     public float moveSpeed = 10f;
     public float mouseSensitivity = 2f;
 
@@ -30,6 +31,8 @@ public class DroneTestController : MonoBehaviour
 
     void HandleMovement()
     {
+        if (raceManager != null && raceManager.GetPenalty()) return;
+        if (raceManager != null && raceManager.IsCountdownActive()) return;
         if (Input.GetKey(KeyCode.UpArrow))
         {
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
