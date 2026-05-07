@@ -7,6 +7,12 @@ public class HandGestureDebugLogger : MonoBehaviour
 
     private bool leftThumbUp;
     private bool rightThumbUp;
+    private bool rightIndexUp;
+
+    private void Awake()
+    {
+        Debug.Log("[Hand Gesture] HandGestureDebugLogger initialized. Listening for hand gesture events...");
+    }
 
     public void OnLeftFistPerformed()
     {
@@ -54,6 +60,20 @@ public class HandGestureDebugLogger : MonoBehaviour
     {
         rightThumbUp = true;
         Debug.Log("[Hand Gesture] Right fist + thumb up detected");
+
+        CheckBothThumbsUp();
+    }
+
+    public void OnRightFistIndexEnded()
+    {
+        rightIndexUp = false;
+        Debug.Log("[Hand Gesture] Right index ended");
+    }
+
+    public void OnRightFistIndexPerformed()
+    {
+        rightIndexUp = true;
+        Debug.Log("[Hand Gesture] Right index detected");
 
         CheckBothThumbsUp();
     }
