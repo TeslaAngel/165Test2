@@ -954,59 +954,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 785418276}
-        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
-        m_MethodName: OnLeftFistPerformed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 785418277}
-        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
-        m_MethodName: OnLeftFistPerformed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   m_GestureEnded:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 507609804}
         m_TargetAssemblyTypeName: HandGestureDebugLogger, Assembly-CSharp
-        m_MethodName: OnLeftFistEnded
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 785418276}
-        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
-        m_MethodName: OnLeftFistEnded
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 785418277}
-        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
         m_MethodName: OnLeftFistEnded
         m_Mode: 1
         m_Arguments:
@@ -1761,14 +1713,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 785418274}
-  - component: {fileID: 785418278}
   - component: {fileID: 785418273}
   - component: {fileID: 785418272}
   - component: {fileID: 785418271}
   - component: {fileID: 785418270}
   - component: {fileID: 785418269}
   - component: {fileID: 785418275}
-  - component: {fileID: 785418277}
   - component: {fileID: 785418276}
   m_Layer: 0
   m_Name: '[Player] Drone'
@@ -1784,7 +1734,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785418268}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53dc67a83a6774c439b7548adf973f6c, type: 3}
   m_Name: 
@@ -1920,7 +1870,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785418268}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a29601e0be7f8c34c806a39291f3956f, type: 3}
   m_Name: 
@@ -1932,60 +1882,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785418268}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b821c0ecd26423e46990e7479cdbbd04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandDroneFlightController
-  playerRig: {fileID: 1458438020}
-  headCamera: {fileID: 2058716900}
-  xrOrigin: {fileID: 1458438020}
-  maxForwardSpeed: 4
-  acceleration: 8
-  deceleration: 10
-  forwardDeadzone: 0.03
-  fullSpeedHandDistance: 0.1
-  turnDeadzone: 0.03
-  fullTurnHandDifference: 0.15
-  maxTurnSpeedDegrees: 90
-  logStateChanges: 1
-  logRuntimeValues: 0
---- !u!114 &785418277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 785418268}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a969a0bc97733048964c01da501c48e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SimpleHandDroneController
-  playerRig: {fileID: 785418274}
-  xrOrigin: {fileID: 785418274}
-  moveSpeed: 10
-  deadzone: 0.01
-  logStateChanges: 1
-  logRuntimeValues: 0
---- !u!114 &785418278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 785418268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c86048a55a6d494f905c6345efd8555, type: 3}
+  m_Script: {fileID: 11500000, guid: c740b62cec143994b817c0352d0774e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RightHandDroneController
+  m_EditorClassIdentifier: Assembly-CSharp::RightFistLookFlyController
   playerRig: {fileID: 785418274}
-  xrOrigin: {fileID: 785418274}
-  moveSpeed: 10
-  deadzone: 0.001
+  headCamera: {fileID: 2058716900}
+  flySpeed: 15
+  allowVerticalFlight: 1
   logStateChanges: 1
-  logRuntimeValues: 1
 --- !u!1 &848862990
 GameObject:
   m_ObjectHideFlags: 0
@@ -2994,31 +2900,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 785418276}
-        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
-        m_MethodName: OnRightFistPerformed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 785418277}
-        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
-        m_MethodName: OnRightFistPerformed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 785418278}
-        m_TargetAssemblyTypeName: RightHandDroneController, Assembly-CSharp
+        m_TargetAssemblyTypeName: RightFistLookFlyController, Assembly-CSharp
         m_MethodName: OnRightFistPerformed
         m_Mode: 1
         m_Arguments:
@@ -3045,31 +2927,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 785418276}
-        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
-        m_MethodName: OnRightFistEnded
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 785418277}
-        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
-        m_MethodName: OnRightFistEnded
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 785418278}
-        m_TargetAssemblyTypeName: RightHandDroneController, Assembly-CSharp
+        m_TargetAssemblyTypeName: RightFistLookFlyController, Assembly-CSharp
         m_MethodName: OnRightFistEnded
         m_Mode: 1
         m_Arguments:
