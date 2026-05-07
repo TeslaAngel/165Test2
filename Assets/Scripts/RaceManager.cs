@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Linq;
 
 public class RaceManager : MonoBehaviour
@@ -69,6 +70,20 @@ public class RaceManager : MonoBehaviour
         penalty = true;
         penaltyRemaining = 3f;
         ResetToLastCheckpoint(drone);
+
+        Checkpoint lastCheckpoint = GetCheckpointByID(nextCheckpointID - 1);
+        if (lastCheckpoint != null)
+            StartCoroutine(HideCheckpointTemporarily(lastCheckpoint, 4f));
+    }
+
+    IEnumerator HideCheckpointTemporarily(Checkpoint checkpoint, float duration)
+    {
+        Renderer[] renderers = checkpoint.GetComponentsInChildren<Renderer>();
+        foreach (var r in renderers) r.enabled = false;
+
+        yield return new WaitForSeconds(duration);
+
+        foreach (var r in renderers) r.enabled = true;
     }
     void InitializeDronePosition()
     {

@@ -44,6 +44,12 @@ public class CheckpointLoader : MonoBehaviour
             Checkpoint cp = checkpointObj.GetComponent<Checkpoint>();
             cp.checkpointID = checkpointID;
 
+            if (checkpointID == 1)
+            {
+                foreach (var r in checkpointObj.GetComponentsInChildren<Renderer>())
+                    r.enabled = false;
+            }
+
             checkpointID++;
         }
 
