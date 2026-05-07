@@ -907,7 +907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &322740904
 Transform:
   m_ObjectHideFlags: 0
@@ -2852,7 +2852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1500487820
 Transform:
   m_ObjectHideFlags: 0
@@ -3024,6 +3024,88 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIArrow
   distanceFromCamera: 2
   offset: {x: 0, y: -0.8, z: 0}
+--- !u!1 &1682973850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1682973851}
+  - component: {fileID: 1682973852}
+  m_Layer: 0
+  m_Name: RightIndexPointGesture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1682973851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682973850}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1975179599}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1682973852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682973850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf93899325d5df74eb9176e097ee3d4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Hands.Samples.Gestures::UnityEngine.XR.Hands.Samples.GestureSample.StaticHandGesture
+  m_HandTrackingEvents: {fileID: 122770541}
+  m_HandShapeOrPose: {fileID: 11400000, guid: f1e54f4018689814fbf866b0498b844b, type: 2}
+  m_TargetTransform: {fileID: 0}
+  m_Background: {fileID: 0}
+  m_GesturePerformed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 507609804}
+        m_TargetAssemblyTypeName: HandGestureDebugLogger, Assembly-CSharp
+        m_MethodName: OnRightFistThumbUpPerformed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_GestureEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 507609804}
+        m_TargetAssemblyTypeName: HandGestureDebugLogger, Assembly-CSharp
+        m_MethodName: OnRightFistThumbUpEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_MinimumHoldTime: 0.1
+  m_GestureDetectionInterval: 0.05
+  m_StaticGestures: []
+  m_Highlight: {fileID: 0}
 --- !u!1 &1697481626
 GameObject:
   m_ObjectHideFlags: 0
@@ -3420,7 +3502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1841091747
 Transform:
   m_ObjectHideFlags: 0
@@ -3658,6 +3740,7 @@ Transform:
   - {fileID: 1500487820}
   - {fileID: 1841091747}
   - {fileID: 852405539}
+  - {fileID: 1682973851}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1990262503
