@@ -1893,7 +1893,7 @@ MonoBehaviour:
   xrOrigin: {fileID: 785418274}
   cameraOffset: {fileID: 1458438020}
   headCamera: {fileID: 2058716900}
-  flySpeed: 3
+  flySpeed: 30
   allowVerticalFlight: 1
   virtualCockpitVisual: {fileID: 1291700784}
   droneBodyVisual: {fileID: 1892853886}
