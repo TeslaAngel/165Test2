@@ -953,12 +953,60 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
+      - m_Target: {fileID: 785418276}
+        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
+        m_MethodName: OnLeftFistPerformed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418277}
+        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
+        m_MethodName: OnLeftFistPerformed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_GestureEnded:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 507609804}
         m_TargetAssemblyTypeName: HandGestureDebugLogger, Assembly-CSharp
+        m_MethodName: OnLeftFistEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418276}
+        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
+        m_MethodName: OnLeftFistEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418277}
+        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
         m_MethodName: OnLeftFistEnded
         m_Mode: 1
         m_Arguments:
@@ -1114,7 +1162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &360187843
 Transform:
   m_ObjectHideFlags: 0
@@ -1450,7 +1498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &507609804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1713,14 +1761,17 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 785418274}
+  - component: {fileID: 785418278}
   - component: {fileID: 785418273}
   - component: {fileID: 785418272}
   - component: {fileID: 785418271}
   - component: {fileID: 785418270}
   - component: {fileID: 785418269}
   - component: {fileID: 785418275}
+  - component: {fileID: 785418277}
+  - component: {fileID: 785418276}
   m_Layer: 0
-  m_Name: Drone
+  m_Name: '[Player] Drone'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1733,7 +1784,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785418268}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53dc67a83a6774c439b7548adf973f6c, type: 3}
   m_Name: 
@@ -1869,11 +1920,72 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785418268}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a29601e0be7f8c34c806a39291f3956f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Drone
+--- !u!114 &785418276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785418268}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b821c0ecd26423e46990e7479cdbbd04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandDroneFlightController
+  playerRig: {fileID: 1458438020}
+  headCamera: {fileID: 2058716900}
+  xrOrigin: {fileID: 1458438020}
+  maxForwardSpeed: 4
+  acceleration: 8
+  deceleration: 10
+  forwardDeadzone: 0.03
+  fullSpeedHandDistance: 0.1
+  turnDeadzone: 0.03
+  fullTurnHandDifference: 0.15
+  maxTurnSpeedDegrees: 90
+  logStateChanges: 1
+  logRuntimeValues: 0
+--- !u!114 &785418277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785418268}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a969a0bc97733048964c01da501c48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleHandDroneController
+  playerRig: {fileID: 785418274}
+  xrOrigin: {fileID: 785418274}
+  moveSpeed: 10
+  deadzone: 0.01
+  logStateChanges: 1
+  logRuntimeValues: 0
+--- !u!114 &785418278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785418268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c86048a55a6d494f905c6345efd8555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RightHandDroneController
+  playerRig: {fileID: 785418274}
+  xrOrigin: {fileID: 785418274}
+  moveSpeed: 10
+  deadzone: 0.001
+  logStateChanges: 1
+  logRuntimeValues: 1
 --- !u!1 &848862990
 GameObject:
   m_ObjectHideFlags: 0
@@ -2660,8 +2772,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458438019}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -119.88223, y: -91.104996, z: 314.68195}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2881,11 +2993,83 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 785418276}
+        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
+        m_MethodName: OnRightFistPerformed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418277}
+        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
+        m_MethodName: OnRightFistPerformed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418278}
+        m_TargetAssemblyTypeName: RightHandDroneController, Assembly-CSharp
+        m_MethodName: OnRightFistPerformed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_GestureEnded:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 507609804}
         m_TargetAssemblyTypeName: HandGestureDebugLogger, Assembly-CSharp
+        m_MethodName: OnRightFistEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418276}
+        m_TargetAssemblyTypeName: HandDroneFlightController, Assembly-CSharp
+        m_MethodName: OnRightFistEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418277}
+        m_TargetAssemblyTypeName: SimpleHandDroneController, Assembly-CSharp
+        m_MethodName: OnRightFistEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 785418278}
+        m_TargetAssemblyTypeName: RightHandDroneController, Assembly-CSharp
         m_MethodName: OnRightFistEnded
         m_Mode: 1
         m_Arguments:
@@ -4093,6 +4277,10 @@ PrefabInstance:
       propertyPath: _centerEyeCamera
       value: 
       objectReference: {fileID: 2058716897}
+    - target: {fileID: 3903482225804038116, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3903482225804038119, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
       propertyPath: m_UseGravity
       value: 1
@@ -4150,6 +4338,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5801245061754409418, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801245061754409418, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
       propertyPath: _playerEyes
       value: 
       objectReference: {fileID: 2058716900}
@@ -4161,6 +4353,10 @@ PrefabInstance:
       propertyPath: _ovrCameraRig
       value: 
       objectReference: {fileID: 1458438021}
+    - target: {fileID: 7218948594749983592, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -193,7 +193,8 @@ namespace UnityEngine.XR.Hands.Samples.GestureSample
             {
                 m_PerformedTriggered = false;
                 m_GestureEnded?.Invoke();
-                m_Background.color = m_BackgroundDefaultColor;
+                if (m_Background != null)
+                { m_Background.color = m_BackgroundDefaultColor; }
             }
 
             m_WasDetected = detected;
@@ -205,7 +206,8 @@ namespace UnityEngine.XR.Hands.Samples.GestureSample
                 {
                     m_GesturePerformed?.Invoke();
                     m_PerformedTriggered = true;
-                    m_Background.color = m_BackgroundHighlightColor;
+                    if (m_Background != null)
+                    { m_Background.color = m_BackgroundHighlightColor; }
 
                     if (m_Highlight)
                         m_Highlight.enabled = true;
