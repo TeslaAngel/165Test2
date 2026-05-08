@@ -11,6 +11,8 @@ public class RightHandGestureDroneController : MonoBehaviour
         BehindDrone
     }
 
+    public RaceManager raceManager;
+
     [Header("XR Rig References")]
     [SerializeField] private Transform playerRig;
     [SerializeField] private Transform xrOrigin;
@@ -98,6 +100,9 @@ public class RightHandGestureDroneController : MonoBehaviour
 
     private void Update()
     {
+        if(raceManager != null && (!raceManager.raceStarted || raceManager.penalty || raceManager.raceFinished))
+            return;
+
         if (rightIndexPointHeld)
         {
             if (TryGetRightIndexPointDirection(out Vector3 direction))
