@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Hands;
 
-public class RightHandPointDroneController : MonoBehaviour
+public class RightHandGestureDroneController : MonoBehaviour
 {
     private enum ViewMode
     {
@@ -12,22 +12,13 @@ public class RightHandPointDroneController : MonoBehaviour
     }
 
     [Header("XR Rig References")]
-    [Tooltip("The XR Origin / player rig root. This object moves.")]
     [SerializeField] private Transform playerRig;
-
-    [Tooltip("Usually the same XR Origin transform.")]
     [SerializeField] private Transform xrOrigin;
-
-    [Tooltip("Usually Camera Offset under XR Origin.")]
     [SerializeField] private Transform cameraOffset;
-
-    [Tooltip("Main Camera / Center Eye Camera.")]
     [SerializeField] private Transform headCamera;
 
     [Header("Flight")]
     [SerializeField] private float flySpeed = 3.0f;
-
-    [Tooltip("If true, pointing up/down also moves vertically. If false, movement is projected horizontally.")]
     [SerializeField] private bool allowVerticalFlight = true;
 
     [Header("View Visuals")]
@@ -41,6 +32,19 @@ public class RightHandPointDroneController : MonoBehaviour
     [SerializeField] private Vector3 behindDroneCameraOffsetLocalPosition = new Vector3(0f, 1.0f, -4.0f);
     [SerializeField] private Vector3 behindDroneCameraOffsetLocalEuler = Vector3.zero;
 
+    [Header("Third-Person Drone Visual Anchor")]
+    [SerializeField] private bool keepDroneVisualInFrontOfCameraInBehindView = true;
+
+    [Tooltip("Camera-local position of the drone body in third-person view.")]
+    [SerializeField] private Vector3 thirdPersonDroneCameraLocalPosition = new Vector3(0f, -0.45f, 2.2f);
+
+    [Header("Visual Movement Rotation")]
+    [Tooltip("The visual transform that should face current movement direction. Usually DroneBodyVisual transform.")]
+    [SerializeField] private Transform visualRootToFaceMovement;
+
+    [Tooltip("Use this if your drone model faces the wrong direction.")]
+    [SerializeField] private Vector3 visualForwardEulerOffset = Vector3.zero;
+
     [Header("Debug")]
     [SerializeField] private bool logStateChanges = true;
     [SerializeField] private bool logRuntimeValues = false;
@@ -51,6 +55,9 @@ public class RightHandPointDroneController : MonoBehaviour
     private bool rightThumbUpHeld;
 
     private ViewMode currentViewMode = ViewMode.PilotNoVisuals;
+
+    private Quaternion lastMovementVisualRotation = Quaternion.identity;
+    private bool hasMovementVisualRotation;
 
     private void Awake()
     {
@@ -66,6 +73,9 @@ public class RightHandPointDroneController : MonoBehaviour
         if (cameraOffset == null && headCamera != null && headCamera.parent != null)
             cameraOffset = headCamera.parent;
 
+        if (visualRootToFaceMovement == null && droneBodyVisual != null)
+            visualRootToFaceMovement = droneBodyVisual.transform;
+
         ApplyViewMode();
     }
 
@@ -76,38 +86,52 @@ public class RightHandPointDroneController : MonoBehaviour
 
         if (subsystems.Count == 0)
         {
-            Debug.LogError("[Point Drone] No XRHandSubsystem found.");
+            Debug.LogError("[Gesture Drone] No XRHandSubsystem found.");
             return;
         }
 
         handSubsystem = subsystems[0];
 
         if (logStateChanges)
-            Debug.Log("[Point Drone] Ready. Point with right index finger to fly.");
+            Debug.Log("[Gesture Drone] Ready. XR gestures control active state; joints control direction.");
     }
 
     private void Update()
     {
-        if (!rightIndexPointHeld)
-            return;
+        if (rightIndexPointHeld)
+        {
+            if (TryGetRightIndexPointDirection(out Vector3 direction))
+            {
+                MoveAlongDirection(direction);
+            }
+            else if (logRuntimeValues && Time.frameCount % 30 == 0)
+            {
+                Debug.Log("[Gesture Drone] Point gesture held, but index direction unavailable.");
+            }
+        }
+    }
 
-        if (!TryGetRightIndexPointDirection(out Vector3 pointDirection))
-            return;
+    private void LateUpdate()
+    {
+        UpdateThirdPersonDroneVisualAnchor();
+    }
 
+    private void MoveAlongDirection(Vector3 direction)
+    {
         if (!allowVerticalFlight)
-            pointDirection = Vector3.ProjectOnPlane(pointDirection, Vector3.up);
+            direction = Vector3.ProjectOnPlane(direction, Vector3.up);
 
-        if (pointDirection.sqrMagnitude < 0.0001f)
+        if (direction.sqrMagnitude < 0.0001f)
             return;
 
-        pointDirection.Normalize();
+        direction.Normalize();
 
-        playerRig.position += pointDirection * flySpeed * Time.deltaTime;
+        playerRig.position += direction * flySpeed * Time.deltaTime;
+
+        FaceVisualTowardMovement(direction);
 
         if (logRuntimeValues && Time.frameCount % 30 == 0)
-        {
-            Debug.Log("[Point Drone] Flying direction: " + pointDirection);
-        }
+            Debug.Log("[Gesture Drone] Moving direction: " + direction);
     }
 
     private bool TryGetRightIndexPointDirection(out Vector3 direction)
@@ -122,49 +146,95 @@ public class RightHandPointDroneController : MonoBehaviour
         if (!rightHand.isTracked)
             return false;
 
-        XRHandJoint indexProximal = rightHand.GetJoint(XRHandJointID.IndexProximal);
-        XRHandJoint indexTip = rightHand.GetJoint(XRHandJointID.IndexTip);
-
-        if (!indexProximal.TryGetPose(out Pose proximalPose))
+        if (!TryGetWorldPosition(rightHand, XRHandJointID.IndexProximal, out Vector3 indexProximal))
             return false;
 
-        if (!indexTip.TryGetPose(out Pose tipPose))
+        if (!TryGetWorldPosition(rightHand, XRHandJointID.IndexTip, out Vector3 indexTip))
             return false;
 
-        Pose originPose = new Pose(xrOrigin.position, xrOrigin.rotation);
-
-        Pose proximalWorldPose = proximalPose.GetTransformedBy(originPose);
-        Pose tipWorldPose = tipPose.GetTransformedBy(originPose);
-
-        direction = tipWorldPose.position - proximalWorldPose.position;
+        direction = indexTip - indexProximal;
 
         return direction.sqrMagnitude > 0.0001f;
     }
 
+    private bool TryGetWorldPosition(XRHand hand, XRHandJointID jointId, out Vector3 worldPosition)
+    {
+        worldPosition = Vector3.zero;
+
+        XRHandJoint joint = hand.GetJoint(jointId);
+
+        if (!joint.TryGetPose(out Pose localPose))
+            return false;
+
+        Pose originPose = new Pose(xrOrigin.position, xrOrigin.rotation);
+        Pose worldPose = localPose.GetTransformedBy(originPose);
+
+        worldPosition = worldPose.position;
+        return true;
+    }
+
+    private void FaceVisualTowardMovement(Vector3 moveDirection)
+    {
+        if (visualRootToFaceMovement == null)
+            return;
+
+        if (moveDirection.sqrMagnitude < 0.0001f)
+            return;
+
+        Quaternion targetRotation =
+            Quaternion.LookRotation(moveDirection.normalized, Vector3.up) *
+            Quaternion.Euler(visualForwardEulerOffset);
+
+        lastMovementVisualRotation = targetRotation;
+        hasMovementVisualRotation = true;
+
+        visualRootToFaceMovement.rotation = targetRotation;
+    }
+
+    private void UpdateThirdPersonDroneVisualAnchor()
+    {
+        if (currentViewMode != ViewMode.BehindDrone)
+            return;
+
+        if (!keepDroneVisualInFrontOfCameraInBehindView)
+            return;
+
+        if (headCamera == null || droneBodyVisual == null)
+            return;
+
+        Transform droneTransform = droneBodyVisual.transform;
+
+        droneTransform.position = headCamera.TransformPoint(thirdPersonDroneCameraLocalPosition);
+
+        if (visualRootToFaceMovement == droneTransform && hasMovementVisualRotation)
+        {
+            droneTransform.rotation = lastMovementVisualRotation;
+        }
+    }
+
     // ------------------------------------------------------------------
-    // Right index pointing gesture events
+    // XR Hands Static Gesture UnityEvents
     // ------------------------------------------------------------------
 
+    // Connect to Right Index Point Gesture > Gesture Performed
     public void OnRightIndexPointPerformed()
     {
         rightIndexPointHeld = true;
 
         if (logStateChanges)
-            Debug.Log("[Point Drone] Right index point detected. Flying started.");
+            Debug.Log("[Gesture Drone] Right index point active. Flying started.");
     }
 
+    // Connect to Right Index Point Gesture > Gesture Ended
     public void OnRightIndexPointEnded()
     {
         rightIndexPointHeld = false;
 
         if (logStateChanges)
-            Debug.Log("[Point Drone] Right index point ended. Flying stopped.");
+            Debug.Log("[Gesture Drone] Right index point ended. Flying stopped.");
     }
 
-    // ------------------------------------------------------------------
-    // Right thumb-up gesture events
-    // ------------------------------------------------------------------
-
+    // Connect to Right Thumb Up Gesture > Gesture Performed
     public void OnRightThumbUpPerformed()
     {
         if (rightThumbUpHeld)
@@ -172,14 +242,18 @@ public class RightHandPointDroneController : MonoBehaviour
 
         rightThumbUpHeld = true;
         CycleViewMode();
+
+        if (logStateChanges)
+            Debug.Log("[Gesture Drone] Right thumb-up active.");
     }
 
+    // Connect to Right Thumb Up Gesture > Gesture Ended
     public void OnRightThumbUpEnded()
     {
         rightThumbUpHeld = false;
 
         if (logStateChanges)
-            Debug.Log("[Point Drone] Right thumb-up ended.");
+            Debug.Log("[Gesture Drone] Right thumb-up ended.");
     }
 
     // ------------------------------------------------------------------
@@ -234,18 +308,20 @@ public class RightHandPointDroneController : MonoBehaviour
                 if (droneBodyVisual != null)
                     droneBodyVisual.SetActive(true);
 
+                UpdateThirdPersonDroneVisualAnchor();
+
                 break;
         }
 
         if (logStateChanges)
-            Debug.Log("[Point Drone] View mode: " + currentViewMode);
+            Debug.Log("[Gesture Drone] View mode: " + currentViewMode);
     }
 
     private void SetCameraOffset(Vector3 localPosition, Vector3 localEuler)
     {
         if (cameraOffset == null)
         {
-            Debug.LogWarning("[Point Drone] Camera Offset is not assigned.");
+            Debug.LogWarning("[Gesture Drone] Camera Offset is not assigned.");
             return;
         }
 
