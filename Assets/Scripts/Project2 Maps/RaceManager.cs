@@ -12,8 +12,8 @@ public class RaceManager : MonoBehaviour
     private Drone drone;
     private float raceStartTime;
     private float finalTime;
-    private bool raceStarted = false;
-    private bool raceFinished = false;
+    public bool raceStarted = false;
+    public bool raceFinished = false;
     private Vector3 lastDronePosition;
     public float movementThreshold = 0.01f; // small threshold to ignore jitter
 
@@ -21,7 +21,7 @@ public class RaceManager : MonoBehaviour
     private float countdownRemaining;
     private bool countdownActive = true;
     private float penaltyRemaining;
-    private bool penalty = false;
+    public bool penalty = false;
 
     void Start()
     {
@@ -125,6 +125,7 @@ public class RaceManager : MonoBehaviour
 
         Debug.Log("Race started!");
     }
+
     // called by the drone component each time it hits a checkpoint collider
     public void HandleCheckpoint(Drone drone, Checkpoint checkpoint)
     {
