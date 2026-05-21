@@ -514,7 +514,7 @@ MonoBehaviour:
   wallObstacleHeight: 2.2
   wallObstacleThickness: 0.08
   navMeshBuildDelay: 0.5
-  agentPrefab: {fileID: 7100256055105456261, guid: b67fb3a648a572144be5d22c2d39ce5f, type: 3}
+  agentPrefab: {fileID: 1868392406}
   spawnSampleRadius: 2
 --- !u!1 &410087039
 GameObject:
@@ -1416,6 +1416,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1247347117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1247347119}
+  - component: {fileID: 1247347118}
+  m_Layer: 0
+  m_Name: AgentController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1247347118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247347117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b89eeeca0d39c741beac8bd6d882396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  surface: {fileID: 293302506}
+  agent: {fileID: 0}
+  anim: {fileID: 1868392405}
+  target: {fileID: 0}
+--- !u!4 &1247347119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247347117}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -57.21189, y: 0, z: -195.5067}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1262270059
 GameObject:
   m_ObjectHideFlags: 0
@@ -1747,6 +1795,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43280c421fc7f614a8143604705ed0aa, type: 3}
+--- !u!95 &1868392405 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 43280c421fc7f614a8143604705ed0aa, type: 3}
+  m_PrefabInstance: {fileID: 1868392404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1868392406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 43280c421fc7f614a8143604705ed0aa, type: 3}
+  m_PrefabInstance: {fileID: 1868392404}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2052209419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,3 +2001,4 @@ SceneRoots:
   - {fileID: 1161120764}
   - {fileID: 293302505}
   - {fileID: 1868392404}
+  - {fileID: 1247347119}
