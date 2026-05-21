@@ -507,85 +507,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b626e229ba21a243bf67b3d3b4a34a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MRUKNavMeshBuilder
-  floorMaterial: {fileID: 2100000, guid: defa4802c448c8d48875d3b05d9a51d3, type: 2}
-  wallMaterial: {fileID: 2100000, guid: 67a652d6995205641afd9a76e867f01c, type: 2}
+  floorMaterial: {fileID: 2100000, guid: c914d0353459aec43933d98f57d1a14a, type: 2}
+  wallMaterial: {fileID: 2100000, guid: 33531dfbff9efcd4895d74d3a59966e0, type: 2}
   showDebugGeometry: 1
   navMeshSurface: {fileID: 293302506}
   wallObstacleHeight: 2.2
   wallObstacleThickness: 0.08
   navMeshBuildDelay: 0.5
-  agentToSpawnOrWarp: {fileID: 301870305}
+  agentPrefab: {fileID: 7100256055105456261, guid: b67fb3a648a572144be5d22c2d39ce5f, type: 3}
   spawnSampleRadius: 2
---- !u!1 &301870304
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 301870305}
-  - component: {fileID: 301870307}
-  - component: {fileID: 301870306}
-  m_Layer: 0
-  m_Name: Agent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &301870305
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 301870304}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &301870306
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 301870304}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &301870307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 301870304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d71600e375e13048ad37f3cf5b4fd4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EmbodiedAgentNavigator
-  agent: {fileID: 301870306}
-  target: {fileID: 0}
-  sampleRadius: 2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,7 +1096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84332468391d09f48907740cfd25ca56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  layer: {fileID: 0}
+  layer: {fileID: 1109098451}
 --- !u!1 &1118401338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1939,4 +1869,3 @@ SceneRoots:
   - {fileID: 1109098453}
   - {fileID: 1161120764}
   - {fileID: 293302505}
-  - {fileID: 301870305}

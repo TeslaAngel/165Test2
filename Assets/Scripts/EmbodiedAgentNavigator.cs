@@ -25,6 +25,12 @@ public class EmbodiedAgentNavigator : MonoBehaviour
             return;
         }
 
+        if (!agent.enabled || !agent.isOnNavMesh)
+        {
+            Debug.LogWarning("[EmbodiedAgentNavigator] Agent is not ready or not on NavMesh yet.");
+            return;
+        }
+
         if (NavMesh.SamplePosition(worldPosition, out NavMeshHit hit, sampleRadius, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);

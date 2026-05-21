@@ -37,7 +37,9 @@ public class MRUKNavMeshBuilder : MonoBehaviour
     [SerializeField] private float navMeshBuildDelay = 0.5f;
 
     [Header("Agent Spawn")]
-    [SerializeField] private Transform agentToSpawnOrWarp;
+    [SerializeField] private GameObject agentPrefab;
+    private GameObject spawnedAgent;
+    //[SerializeField] private Transform agentToSpawnOrWarp;
     [SerializeField] private float spawnSampleRadius = 2.0f;
 
     private readonly List<GameObject> generatedObjects = new();
@@ -72,10 +74,11 @@ public class MRUKNavMeshBuilder : MonoBehaviour
         BuildWallsFromMRUK(room);
 
         navMeshSurface.BuildNavMesh();
+        SpawnAgentOnNavMesh(room);
 
         Debug.Log("[MRUKNavMeshBuilder] Runtime NavMesh built from MRUK scene data.");
 
-        if (agentToSpawnOrWarp != null)
+        if (spawnedAgent != null)
         {
             PlaceAgentOnNavMesh(room);
         }
@@ -257,31 +260,64 @@ public class MRUKNavMeshBuilder : MonoBehaviour
         return wall;
     }
 
+    private void SpawnAgentOnNavMesh(MRUKRoom room)
+    {
+        Vector3 desiredPosition = room.FloorAnchor != null
+            ? room.FloorAnchor.GetAnchorCenter()
+            : transform.position;
+
+        if (!NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, spawnSampleRadius, NavMesh.AllAreas))
+        {
+            Debug.LogWarning("[MRUKNavMeshBuilder] Could not find spawn point on NavMesh.");
+            return;
+        }
+
+        spawnedAgent = Instantiate(agentPrefab, hit.position, Quaternion.identity);
+
+        NavMeshAgent agent = spawnedAgent.GetComponent<NavMeshAgent>();
+
+        if (agent != null && agent.isOnNavMesh)
+        {
+            Debug.Log("[MRUKNavMeshBuilder] Spawned agent on generated NavMesh.");
+        }
+    }
+
     private void PlaceAgentOnNavMesh(MRUKRoom room)
     {
         Vector3 desiredPosition = room.FloorAnchor != null
             ? room.FloorAnchor.GetAnchorCenter()
             : transform.position;
 
-        if (NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, spawnSampleRadius, NavMesh.AllAreas))
+        if (!NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, spawnSampleRadius, NavMesh.AllAreas))
         {
-            NavMeshAgent agent = agentToSpawnOrWarp.GetComponent<NavMeshAgent>();
+            Debug.LogWarning("[MRUKNavMeshBuilder] Could not sample a valid NavMesh position for agent.");
+            return;
+        }
 
-            if (agent != null)
+        NavMeshAgent agent = spawnedAgent.GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+        {
+            agent.enabled = false;
+
+            spawnedAgent.transform.position = hit.position;
+
+            agent.enabled = true;
+
+            if (!agent.isOnNavMesh)
             {
-                agent.Warp(hit.position);
-            }
-            else
-            {
-                agentToSpawnOrWarp.position = hit.position;
+                Debug.LogWarning("[MRUKNavMeshBuilder] Agent enabled but still not on NavMesh.");
+                return;
             }
 
-            Debug.Log("[MRUKNavMeshBuilder] Agent placed on generated NavMesh.");
+            agent.Warp(hit.position);
         }
         else
         {
-            Debug.LogWarning("[MRUKNavMeshBuilder] Could not sample a valid NavMesh position for agent.");
+            spawnedAgent.transform.position = hit.position;
         }
+
+        Debug.Log("[MRUKNavMeshBuilder] Agent placed on generated NavMesh.");
     }
 
     private void ClearGeneratedGeometry()
