@@ -1,4 +1,7 @@
-<Solution>
+﻿<Solution>
+  <Project Path="Unity.XR.Hands.Samples.VisualizerSample.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Unity.XR.Hands.Samples.Gestures.csproj" />
+  <Project Path="Unity.XR.Hands.Samples.Gestures.Editor.csproj" />
 </Solution>
