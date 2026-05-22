@@ -466,7 +466,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   agentNavigator: {fileID: 0}
-  obstaclePrefab: {fileID: 0}
+  obstaclePrefab: {fileID: 6797874519043961985, guid: 85f11100be5ef2c49a48be9bf4db3bd0, type: 3}
   obstacleParent: {fileID: 293302505}
   navMeshBuilder: {fileID: 293302507}
   obstacleYOffset: 0.05
@@ -1069,15 +1069,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.XR.Hands.Samples.Gestures::UnityEngine.XR.Hands.Samples.GestureSample.StaticHandGesture
   m_HandTrackingEvents: {fileID: 1447787757}
-  m_HandShapeOrPose: {fileID: 11400000, guid: 76a78156e63ca5b41b7043fdea4c2111, type: 2}
+  m_HandShapeOrPose: {fileID: 11400000, guid: f1e54f4018689814fbf866b0498b844b, type: 2}
   m_TargetTransform: {fileID: 0}
   m_Background: {fileID: 0}
   m_GesturePerformed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 233308990}
+        m_TargetAssemblyTypeName: GestureCommandController, Assembly-CSharp
+        m_MethodName: OnPinchStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_GestureEnded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 233308990}
+        m_TargetAssemblyTypeName: GestureCommandController, Assembly-CSharp
+        m_MethodName: OnPinchEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_MinimumHoldTime: 0.1
   m_GestureDetectionInterval: 0.05
   m_StaticGestures: []
@@ -2028,10 +2052,34 @@ MonoBehaviour:
   m_Background: {fileID: 0}
   m_GesturePerformed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 233308990}
+        m_TargetAssemblyTypeName: GestureCommandController, Assembly-CSharp
+        m_MethodName: OnFistStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_GestureEnded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 233308990}
+        m_TargetAssemblyTypeName: GestureCommandController, Assembly-CSharp
+        m_MethodName: OnFistEnded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_MinimumHoldTime: 0.1
   m_GestureDetectionInterval: 0.05
   m_StaticGestures: []
