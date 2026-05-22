@@ -18,7 +18,7 @@ public class GestureCommandController : MonoBehaviour
     [SerializeField] private LayerMask floorRaycastMask = ~0;
 
     [Header("Agent")]
-    [SerializeField] private EmbodiedAgentNavigator agentNavigator;
+    public EmbodiedAgentNavigator agentNavigator;
 
     [Header("Obstacle Placement")]
     [SerializeField] private GameObject obstaclePrefab;
@@ -46,6 +46,7 @@ public class GestureCommandController : MonoBehaviour
     // Call this from your fist gesture event.
     public void OnFistStarted()
     {
+        Debug.Log("[GestureCommandController] Fist started.");
         if (fistHeld)
         {
             return;
@@ -58,12 +59,14 @@ public class GestureCommandController : MonoBehaviour
     // Call this from your fist released event.
     public void OnFistEnded()
     {
+        Debug.Log("[GestureCommandController] Fist ended.");
         fistHeld = false;
     }
 
     // Call this from your pinch gesture started event.
     public void OnPinchStarted()
     {
+        Debug.Log("[GestureCommandController] Pinch started.");
         if (pinchHeld)
         {
             return;
@@ -76,6 +79,7 @@ public class GestureCommandController : MonoBehaviour
     // Call this from your pinch released event.
     public void OnPinchEnded()
     {
+        Debug.Log("[GestureCommandController] Pinch ended.");
         pinchHeld = false;
     }
 
