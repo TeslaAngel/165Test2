@@ -2047,7 +2047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.XR.Hands.Samples.Gestures::UnityEngine.XR.Hands.Samples.GestureSample.StaticHandGesture
   m_HandTrackingEvents: {fileID: 1447787757}
-  m_HandShapeOrPose: {fileID: 11400000, guid: 7e8e2f3f478f7d94cb3e1a07be206736, type: 2}
+  m_HandShapeOrPose: {fileID: 11400000, guid: cf4d1b661e072ec49a4ecabdbbbb6b02, type: 2}
   m_TargetTransform: {fileID: 0}
   m_Background: {fileID: 0}
   m_GesturePerformed:
