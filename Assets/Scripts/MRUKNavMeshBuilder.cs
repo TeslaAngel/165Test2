@@ -320,6 +320,19 @@ public class MRUKNavMeshBuilder : MonoBehaviour
         Debug.Log("[MRUKNavMeshBuilder] Agent placed on generated NavMesh.");
     }
 
+    public void RebuildNavMesh()
+    {
+        if (navMeshSurface == null)
+        {
+            Debug.LogError("[MRUKNavMeshBuilder] Cannot rebuild NavMesh because NavMeshSurface is missing.");
+            return;
+        }
+
+        navMeshSurface.BuildNavMesh();
+
+        Debug.Log("[MRUKNavMeshBuilder] NavMesh rebuilt.");
+    }
+
     private void ClearGeneratedGeometry()
     {
         foreach (GameObject obj in generatedObjects)
