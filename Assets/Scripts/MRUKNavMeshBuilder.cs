@@ -42,6 +42,8 @@ public class MRUKNavMeshBuilder : MonoBehaviour
     //[SerializeField] private Transform agentToSpawnOrWarp;
     [SerializeField] private float spawnSampleRadius = 2.0f;
 
+    public GestureCommandController gestureCommandController;
+
     private readonly List<GameObject> generatedObjects = new();
 
     private IEnumerator Start()
@@ -275,6 +277,7 @@ public class MRUKNavMeshBuilder : MonoBehaviour
         spawnedAgent = Instantiate(agentPrefab, hit.position, Quaternion.identity);
 
         NavMeshAgent agent = spawnedAgent.GetComponent<NavMeshAgent>();
+        gestureCommandController.agentNavigator = spawnedAgent.GetComponent<EmbodiedAgentNavigator>();
 
         if (agent != null && agent.isOnNavMesh)
         {

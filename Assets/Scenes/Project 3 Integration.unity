@@ -571,8 +571,9 @@ MonoBehaviour:
   wallObstacleHeight: 2.2
   wallObstacleThickness: 0.08
   navMeshBuildDelay: 0.5
-  agentPrefab: {fileID: 7100256055105456261, guid: b67fb3a648a572144be5d22c2d39ce5f, type: 3}
+  agentPrefab: {fileID: 1907710658477848943, guid: a8bc220b39b8ab14d911090ec589273c, type: 3}
   spawnSampleRadius: 2
+  gestureCommandController: {fileID: 233308990}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

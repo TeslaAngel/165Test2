@@ -18,7 +18,7 @@ public class GestureCommandController : MonoBehaviour
     [SerializeField] private LayerMask floorRaycastMask = ~0;
 
     [Header("Agent")]
-    [SerializeField] private EmbodiedAgentNavigator agentNavigator;
+    public EmbodiedAgentNavigator agentNavigator;
 
     [Header("Obstacle Placement")]
     [SerializeField] private GameObject obstaclePrefab;
